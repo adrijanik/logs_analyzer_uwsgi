@@ -1,0 +1,35 @@
+Logs analyzer for uWSGI logs
+
+Celem zadania jest napisanie skryptu parsującego logi serwera uWSGI.
+
+Skrypt powinien posiadać następujące cechy:
+Aplikacja konsolowa
+Aplikacja używająca pythona 3.5 bez zewnętrznych zależności
+Aplikacja na wejściu dostaje nazwę pliku zawierającego poprawny output serwera uWSGI  (co za tym idzie,
+aplikacja nie powinna przerwać swojego działania z nieobsłużonym błędem).
+Skrypt powinien umożliwić wypisanie statystyk dla danego przedziału czasowego (lub wszystkich):
+Ilość zapytań
+Średnia ilość zapytań na sekundę
+Ilość poszczególnych kodów odpowiedzi serwera (200: 10, 301: 20, 500: 56 etc.)
+Średnia wielkość wygenerowanej odpowiedzi (dla zapytań z kodem 2xx)
+
+Przykładowe wywołanie:
+python parser.py --from 20-11-2016_11-23-11 --to 21-11-2016_01-33 logfile.log
+python parser.py --from 20-11-2016_11-23-11 logfile.log
+python parser.py --to 21-11-2016_01-33 logfile.log
+python parser.py logfile.log
+
+Przykładowe wyjście:
+Zapytan: 5361
+Zapytania/sec: 3.5
+Odpowiedzi (200: 10, 301: 20, 500: 56)
+Sredni rozmiar zapytan z kodem 2xx: 4.32 Mb
+
+How to run it?
+
+run it inside web_app
+docker build logapp
+check id of image with:
+docker images
+run it with proper container id
+docker run -v ~/interview/web_app/logapp/code:/code -t -i --rm 7396ed4de824 ./logs_analyzer --from 21_11_2016_17_54_30 --to 21_11_2016_17_55_35 logfilewsi.log
